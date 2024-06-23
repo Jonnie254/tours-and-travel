@@ -1,0 +1,41 @@
+<div class="container-login" [ngStyle]="{backgroundImage:'url('+image+')'}">
+    <div *ngIf="loginSuccess" class="message">{{successmessage}}</div>
+    <div *ngIf="loginError" class="message">{{error}}</div>
+    <div class="wrapper">
+        <div class="container-left">
+            <div class="logo">
+                <img src="assets/images/xplora.jpg" alt="xplora" />
+            </div>
+            <h1>Xplora Tours</h1>
+            <p>Discover the world with us</p>
+        </div>
+        <div class="login-container">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <h2>Sign in to your account</h2>
+                <div class="form-group">
+                    <label for="username">Email</label>
+                    <input type="text" id="username" formControlName="username">
+                </div>
+                <div class="error-message"
+                    *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error">
+                    Email is required</div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" formControlName="password">
+                </div>
+                <div class="error-message"
+                    *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+                    Password must have lower case, upper case and numeric characters</div>
+                <div class="form-group">
+                    <input type="checkbox" id="remember" formControlName="remember">
+                    <label for="remember">Remember me</label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" [disabled]="loginForm.invalid">Log in</button>
+            </form>
+        </div>
+
+
+    </div>
+
+</div>
