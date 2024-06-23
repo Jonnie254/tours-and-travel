@@ -1,41 +1,99 @@
-<div class="container-login" [ngStyle]="{backgroundImage:'url('+image+')'}">
-    <div *ngIf="loginSuccess" class="message">{{successmessage}}</div>
-    <div *ngIf="loginError" class="message">{{error}}</div>
-    <div class="wrapper">
-        <div class="container-left">
-            <div class="logo">
-                <img src="assets/images/xplora.jpg" alt="xplora" />
-            </div>
-            <h1>Xplora Tours</h1>
-            <p>Discover the world with us</p>
-        </div>
-        <div class="login-container">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <h2>Sign in to your account</h2>
-                <div class="form-group">
-                    <label for="username">Email</label>
-                    <input type="text" id="username" formControlName="username">
+<div class="parent">
+    <div *ngIf="createAccountSuccess" class="success-message">
+        <p>{{ createAccountMessage }}</p>
+    </div>
+    <div *ngIf="!createAccountSuccess && createAccountError" class="error-message-top">
+        <p>{{ createAccountMessage }}</p>
+    </div>
+    <div class="container" [ngClass]="{ 'active': isSignUpActive }">
+        <div class="form-container sign-up">
+            <form #loginForm="ngForm">
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
-                <div class="error-message"
-                    *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error">
-                    Email is required</div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" formControlName="password">
+                <span>or use your email for registration</span>
+                <input type="text" name="name" #fullname="ngModel" [(ngModel)]="signUpObj.name" placeholder="Name"
+                    required minlength="5">
+                <div class="error-message">
+                    <p *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)">Name is required</p>
+                    <p *ngIf="fullname.errors?.['minlength']">Name must be at least 5 characters</p>
                 </div>
-                <div class="error-message"
-                    *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
-                    Password must have lower case, upper case and numeric characters</div>
-                <div class="form-group">
-                    <input type="checkbox" id="remember" formControlName="remember">
-                    <label for="remember">Remember me</label>
-                    <a href="#" class="forgot-password">Forgot password?</a>
+                <input type="email" name="email" #emailSignup="ngModel" required [(ngModel)]="signUpObj.email"
+                    placeholder="Email"
+                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(?:[a-zA-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$">
+                <div *ngIf="emailSignup.invalid && (emailSignup.dirty || emailSignup.touched)" class="error-message">
+                    <p *ngIf="emailSignup.errors?.['required']">Email is required</p>
+                    <p *ngIf="emailSignup.errors?.['pattern']">Email is invalid</p>
                 </div>
-                <button type="submit" [disabled]="loginForm.invalid">Log in</button>
+                <input type="password" name="password" #passwordLogin="ngModel" [(ngModel)]="signUpObj.password"
+                    placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                <div *ngIf="passwordLogin.invalid && (passwordLogin.dirty || passwordLogin.touched)"
+                    class="error-message">
+                    <p *ngIf="passwordLogin.errors?.['required']">Password is required</p>
+                    <p *ngIf="passwordLogin.errors?.['pattern']">Password is invalid</p>
+                </div>
+                <input type="password" name="confirmPassword" #confirmPasswordInput="ngModel"
+                    [(ngModel)]="confirmPassword" placeholder="Confirm Password" required>
+                <div *ngIf="loginForm.submitted && loginForm.controls['confirmPassword'].errors?.['required']"
+                    class="error-message">
+                    <p>Confirm Password is required</p>
+                </div>
+                <div *ngIf="confirmPassword !== signUpObj.password && (loginForm.submitted || confirmPasswordInput.touched)"
+                    class="error-message">
+                    <p>Passwords do not match</p>
+                </div>
+                <button type="submit" (click)="onRegister()">Sign Up</button>
             </form>
         </div>
-
-
+        <div class="form-container sign-in" *ngIf="!isSignUpActive">
+            <form #formlogin="ngForm">
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for login</span>
+                <input type="text" name="email" #email="ngModel" [(ngModel)]="signInObj.email" placeholder="Email"
+                    required
+                    pattern="(^\s*$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(?:[a-zA-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$)">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+                    <p *ngIf="email.errors?.['required']">Email is required</p>
+                    <p *ngIf="email.errors?.['pattern']">Email is invalid</p>
+                </div>
+                <input type="password" name="password" #passwordLogin="ngModel" [(ngModel)]="signInObj.password"
+                    placeholder="Password" required minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                <div *ngIf="passwordLogin.invalid && (passwordLogin.dirty || passwordLogin.touched)"
+                    class="error-message">
+                    <p *ngIf="passwordLogin.errors?.['required']">Password is required</p>
+                    <p *ngIf="passwordLogin.errors?.['minlength']">Password must be at least 6 characters</p>
+                    <p *ngIf="passwordLogin.errors?.['pattern']">Password must contain at least one number and one
+                        uppercase and lowercase letter, and at least 8 or more characters</p>
+                </div>
+                <a href="#">Forgot Your Password?</a>
+                <button type="submit" (click)="onLogin()">Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all site features</p>
+                    <span routerLink="/landingPage">Visit our website for more information</span>
+                    <button (click)="toggleSignUp(false)">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all site features</p>
+                    <span routerLink="/landingPage">Visit our website for more information</span>
+                    <button (click)="toggleSignUp(true)">Sign Up</button>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>

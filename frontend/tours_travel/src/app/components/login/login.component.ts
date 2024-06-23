@@ -1,60 +1,102 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Router, RouterLink, RouterModule } from '@angular/router';
+import { User, Userlogins } from '../../interface/userlogins';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FontAwesomeModule,
+    RouterModule,
+    RouterLink,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  image = 'assets/images/background.avif';
-  loginForm: FormGroup;
-  loginSuccess: boolean = false;
-  loginError: boolean = false;
-  error = '';
-  successmessage = '';
-
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required, validatePassword()],
-      remember: [false],
-    });
+  isSignUpActive: boolean = false;
+  toggleSignUp(isSignUp: boolean) {
+    this.isSignUpActive = isSignUp;
   }
-
-  onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Login attempt', this.loginForm.value);
-    }
-  }
-}
-function validatePassword(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
-
-    if (!value) {
-      return null;
-    }
-
-    const hasUpperCase = /[A-Z]+/.test(value);
-
-    const hasLowerCase = /[a-z]+/.test(value);
-
-    const hasNumeric = /[0-9]+/.test(value);
-
-    const passwordValid = hasUpperCase && hasLowerCase && hasNumeric;
-
-    return !passwordValid ? { passwordStrength: true } : null;
+  createAccountError: boolean = false;
+  createAccountSuccess: boolean = false;
+  createAccountMessage: string = '';
+  signUpObj: User = {
+    name: '',
+    email: '',
+    password: '',
   };
+  confirmPassword: string = '';
+  signInObj: Userlogins = {
+    email: '',
+    password: '',
+  };
+  clearMessages() {
+    this.createAccountSuccess = false;
+    this.createAccountError = false;
+    this.createAccountMessage = '';
+  }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private usersService: UserService
+  ) {}
+
+  onRegister() {
+    this.usersService.createUser(this.signUpObj).subscribe(
+      (response) => {
+        if (response.success) {
+          this.createAccountSuccess = true;
+          this.createAccountMessage = response.message;
+          setTimeout(() => {
+            this.isSignUpActive = false;
+            this.clearMessages();
+          }, 3000);
+        } else {
+          this.createAccountError = true;
+          this.createAccountMessage = 'Error occurred while creating account';
+          setTimeout(() => this.clearMessages(), 3000);
+        }
+      },
+      (error) => {
+        console.error('Error during registration:', error);
+        this.createAccountError = true;
+        this.createAccountMessage = 'Error occurred while creating account';
+        setTimeout(() => this.clearMessages(), 3000);
+      }
+    );
+  }
+  onLogin() {
+    this.authService
+      .login(this.signInObj.email, this.signInObj.password)
+      .subscribe({
+        next: (response: { success: any; data: { role: string } }) => {
+          if (response.success) {
+            this.createAccountSuccess = true;
+            this.createAccountMessage = 'Login successful';
+            this.authService.isLoggedIn = true;
+            setTimeout(() => this.clearMessages(), 3000);
+            setTimeout(() => {
+              if (response.data.role === 'user') {
+                this.router.navigate(['userdashboard']);
+              } else {
+                this.router.navigate(['admindashboard']);
+              }
+            }, 4000);
+          }
+        },
+        error: (error) => {
+          this.createAccountError = true;
+          this.createAccountMessage = 'Email or password is incorrect';
+          setTimeout(() => this.clearMessages(), 3000);
+        },
+      });
+  }
 }

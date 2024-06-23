@@ -43,4 +43,65 @@ export class userService {
       await prisma.$disconnect();
     }
   }
+  async updateUser(user_id: string, newUser: UserRegister): Promise<Res> {
+    try {
+      // Retrieve current user details by id
+      const current_details = await prisma.user.findUnique({
+        where: {
+          id: user_id,
+        },
+      });
+
+      if (!current_details) {
+        return {
+          success: false,
+          message: "User not found",
+          data: null,
+        };
+      }
+
+      // Prepare updated user data
+      let updatedUserData: any = {
+        name: newUser.name || current_details.name,
+        email: newUser.email || current_details.email,
+      };
+
+      if (newUser.password) {
+        updatedUserData.password = bcrypt.hashSync(newUser.password, 6);
+      } else {
+        updatedUserData.password = current_details.password; // Keep existing password if not provided
+      }
+
+      // Perform the update operation
+      const updatedUser = await prisma.user.update({
+        where: {
+          id: user_id,
+        },
+        data: updatedUserData,
+      });
+
+      if (updatedUser) {
+        return {
+          success: true,
+          message: "User updated successfully",
+          data: updatedUser,
+        };
+      } else {
+        return {
+          success: false,
+          message: "User update failed",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.error("Error in updateUser:", error);
+      return {
+        success: false,
+        message: "User update failed",
+        data: null,
+      };
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
 }

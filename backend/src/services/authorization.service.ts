@@ -51,7 +51,7 @@ export class authService {
       return {
         success: true,
         message: "login successful",
-        data: { role: user.role, token },
+        data: { role: user.role, token, id: user.id },
       };
     } catch (error) {
       console.error("Error during login:", error);

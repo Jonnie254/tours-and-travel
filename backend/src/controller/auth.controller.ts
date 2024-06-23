@@ -12,7 +12,11 @@ export const LoginUser = async (req: Request, res: Response) => {
     const response = await auth.login(login);
 
     if (!response.success) {
-      return res.status(401).json(response);
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+        data: null,
+      });
     }
 
     res.cookie("token", response.data.token, {

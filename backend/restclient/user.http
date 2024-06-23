@@ -1,11 +1,19 @@
 ###
-
-
 POST http://localhost:3000/user/create
 Content-Type: application/json
 
 {
     "name": "John Doe",
-    "email": "kamanujohh85@gmail.com",
-    "password": "password"
+    "email": "kamanujohh85901@gmail.com",
+    "password": "password12"
 }
+
+ ### update user details
+ PUT http://localhost:3000/user/update/4a2fd0f6-629f-48f8-bb45-b92635ffe3c1
+Content-Type: application/json
+{
+    "name": "John Doe",
+    "email": "kamanujohn123@gmail.com",
+    "password": "password12"
+}
+
