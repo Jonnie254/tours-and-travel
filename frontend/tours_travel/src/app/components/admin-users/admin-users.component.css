@@ -1,0 +1,84 @@
+.container {
+  margin: 20px;
+}
+
+.wrapper {
+  padding: 10px;
+}
+
+.table-users {
+  width: 100%;
+  border-collapse: collapse;
+}
+.head {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+}
+
+.table-users .header {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+}
+
+.table-users table {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+}
+
+.table-users th,
+.table-users td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-users th {
+  background-color: #f9f9f9;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+}
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button fa-icon {
+  font-size: 20px;
+  color: #4caf50;
+}
+
+button:hover fa-icon {
+  color: #388e3c;
+}
+.error-message {
+  color: red;
+  text-align: center;
+}
+.error-message-top {
+  color: red;
+  text-align: center;
+  top: 10%;
+  background-color: #c9d6ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.success-message {
+  color: green;
+  text-align: center;
+  top: 10%;
+  background-color: #c9d6ff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}

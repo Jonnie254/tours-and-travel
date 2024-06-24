@@ -1,0 +1,13 @@
+<div class="container">
+    <h2>Xplora Tours</h2>
+    <ul>
+        <li routerLink="home"><fa-icon [icon]="faHome" class="icon"></fa-icon>Home</li>
+        <li routerLink="bookings"><fa-icon [icon]="faUser" class="icon"></fa-icon>Bookings</li>
+        <li routerLink="profile"><fa-icon [icon]="faAdd" class="icon"></fa-icon>Profile</li>
+        <li>
+            <button (click)="logout()" class="logout-button">
+                <fa-icon [icon]="faSignOut" class="icon"></fa-icon>Logout
+            </button>
+        </li>
+    </ul>
+</div>

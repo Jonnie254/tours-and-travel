@@ -43,9 +43,81 @@ export class userService {
       await prisma.$disconnect();
     }
   }
+  async getAllUsers(): Promise<Res> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const users = await prisma.user.findMany({
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        });
+        if (users) {
+          resolve({
+            success: true,
+            message: "Users found",
+            data: users,
+          });
+        } else {
+          resolve({
+            success: false,
+            message: "No users found",
+            data: null,
+          });
+        }
+      } catch (error) {
+        console.error("Error in getAllUsers:", error);
+        resolve({
+          success: false,
+          message: "No users found",
+          data: null,
+        });
+      } finally {
+        await prisma.$disconnect();
+      }
+    });
+  }
+  async getOneUser(user_id: string): Promise<Res> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const user = await prisma.user.findUnique({
+          where: {
+            id: user_id,
+          },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        });
+        if (user) {
+          resolve({
+            success: true,
+            message: "User found",
+            data: user,
+          });
+        } else {
+          resolve({
+            success: false,
+            message: "User not found",
+            data: null,
+          });
+        }
+      } catch (error) {
+        console.error("Error in getOneUser:", error);
+        resolve({
+          success: false,
+          message: "User not found",
+          data: null,
+        });
+      } finally {
+        await prisma.$disconnect();
+      }
+    });
+  }
   async updateUser(user_id: string, newUser: UserRegister): Promise<Res> {
     try {
-      // Retrieve current user details by id
       const current_details = await prisma.user.findUnique({
         where: {
           id: user_id,
@@ -59,8 +131,6 @@ export class userService {
           data: null,
         };
       }
-
-      // Prepare updated user data
       let updatedUserData: any = {
         name: newUser.name || current_details.name,
         email: newUser.email || current_details.email,
@@ -69,10 +139,8 @@ export class userService {
       if (newUser.password) {
         updatedUserData.password = bcrypt.hashSync(newUser.password, 6);
       } else {
-        updatedUserData.password = current_details.password; // Keep existing password if not provided
+        updatedUserData.password = current_details.password;
       }
-
-      // Perform the update operation
       const updatedUser = await prisma.user.update({
         where: {
           id: user_id,
@@ -98,6 +166,37 @@ export class userService {
       return {
         success: false,
         message: "User update failed",
+        data: null,
+      };
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
+  async deleteUser(user_id: string): Promise<Res> {
+    try {
+      const user = await prisma.user.delete({
+        where: {
+          id: user_id,
+        },
+      });
+      if (user) {
+        return {
+          success: true,
+          message: "User deleted successfully",
+          data: null,
+        };
+      } else {
+        return {
+          success: false,
+          message: "User deletion failed",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.error("Error in deleteUser:", error);
+      return {
+        success: false,
+        message: "User deletion failed",
         data: null,
       };
     } finally {

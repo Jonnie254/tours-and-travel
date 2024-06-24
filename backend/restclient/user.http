@@ -8,6 +8,12 @@ Content-Type: application/json
     "password": "password12"
 }
 
+###get user details
+GET http://localhost:3000/user/profile/0f9942d6-45a5-4d85-8534-68ec561b54da
+
+###get all users
+GET http://localhost:3000/user/all
+
  ### update user details
  PUT http://localhost:3000/user/update/4a2fd0f6-629f-48f8-bb45-b92635ffe3c1
 Content-Type: application/json
@@ -16,4 +22,7 @@ Content-Type: application/json
     "email": "kamanujohn123@gmail.com",
     "password": "password12"
 }
+
+###delete user
+DELETE http://localhost:3000/user/delete/4a2fd0f6-629f-48f8-bb45-b92635ffe3c1
 

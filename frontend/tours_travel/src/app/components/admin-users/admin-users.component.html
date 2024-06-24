@@ -1,0 +1,40 @@
+<div class="container">
+    <div *ngIf="deleteAccountSuccess" class="success-message">
+        <p>{{ deleteAccountMessage }}</p>
+    </div>
+    <div *ngIf="!deleteAccountSuccess && deleteAccountError" class="error-message-top">
+        <p>{{ deleteAccountMessage }}</p>
+    </div>
+</div>
+<div class="wrapper">
+    <div class="table-users">
+        <div class="head">Manage Users</div>
+        <table cellspacing="0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <div class="actions">
+                            <button>
+                                <fa-icon [icon]="faEdit"></fa-icon>
+                            </button>
+                            <button (click)="user.id && deleteUser(user.id)">
+                                <fa-icon [icon]="faDeleteLeft"></fa-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

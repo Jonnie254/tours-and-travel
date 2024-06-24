@@ -1,0 +1,36 @@
+.container {
+  background-color: #203354;
+  height: 100vh;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.container h2 {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container ul li {
+  list-style: none;
+  margin: 40px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.container ul li:hover {
+  color: #fff;
+}
+.icon {
+  font-size: 25px;
+  margin-right: 20px;
+}
+.logout-button {
+  border: none;
+  background-color: #203354;
+  color: #aaa;
+  cursor: pointer;
+}
+.logout-button:hover {
+  color: #fff;
+}
