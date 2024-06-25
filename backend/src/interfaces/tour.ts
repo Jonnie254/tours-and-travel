@@ -1,15 +1,16 @@
 import { Booking } from "./booking";
-
 export interface Tour {
-  id: string;
-  destination: string;
-  duration: number;
-  price: number;
-  tourType: string;
+  id?: string;
+  name: string;
   description?: string;
-  isDeleted: boolean;
-  createdAt: Date;
-  bookings: Booking[];
-  startDates: Date[];
-  startLocation: string;
+  price: number;
+  location: string;
+  images: string;
+  startDateTime: Date;
+  endDateTime: Date;
+  tourType: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isDeleted?: boolean;
+  bookings?: Booking[];
 }

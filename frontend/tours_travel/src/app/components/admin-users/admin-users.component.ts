@@ -48,39 +48,6 @@ export class AdminUsersComponent {
     );
   }
 
-  editUser(userId: string): void {
-    this.userservice.getuserProfile(userId).subscribe(
-      (response: any) => {
-        if (response.success) {
-          this.editedUser = {
-            id: response.data.id,
-            name: response.data.name,
-            email: response.data.email,
-            password: response.data.password,
-          };
-        } else {
-          console.error('User not found');
-        }
-      },
-      (error) => {
-        console.error('Error fetching user profile:', error);
-      }
-    );
-  }
-  submitForm(): void {
-    this.userservice.updateUser(this.editedUser).subscribe(
-      (response) => {
-        console.log('User updated successfully:', response);
-        // Optionally, clear the form or perform other actions upon successful update
-        this.editedUser = { name: '', email: '', password: '' }; // Reset editedUser object
-        this.getAllUser(); // Refresh the list of users
-      },
-      (error: any) => {
-        console.error('Error updating user:', error);
-      }
-    );
-  }
-
   deleteUser(userId: string): void {
     this.userservice.deleteUser(userId).subscribe({
       next: (response: any) => {

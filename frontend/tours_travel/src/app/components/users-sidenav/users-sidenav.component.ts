@@ -8,6 +8,7 @@ import {
   faSignOut,
   faUser,
   faUserDoctor,
+  faGlobeAfrica,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../services/auth.service';
 
@@ -31,4 +32,5 @@ export class UsersSidenavComponent {
   faAdd = faAdd;
   faDotCircle = faDotCircle;
   faSignOut = faSignOut;
+  faGlobeAfrica = faGlobeAfrica;
 }

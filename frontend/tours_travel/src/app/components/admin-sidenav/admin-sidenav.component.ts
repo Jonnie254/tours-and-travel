@@ -8,6 +8,7 @@ import {
   faUser,
   faUserDoctor,
   faMapLocation,
+  faGlobeAfrica,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
@@ -33,4 +34,5 @@ export class AdminSidenavComponent {
   faMapLocation = faMapLocation;
   faDotCircle = faDotCircle;
   faSignOut = faSignOut;
+  faGlobeAfrica = faGlobeAfrica;
 }

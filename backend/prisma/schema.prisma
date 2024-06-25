@@ -42,23 +42,15 @@ model Tours {
   description   String
   price         Float
   location      String
-  images        tourImage[]
+  images        String
   startDateTime DateTime
   endDateTime   DateTime
+  tourType     String
   bookings      Booking[]
   isDeleted     Boolean     @default(false)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   Review        Review[]
-}
-
-model tourImage {
-  id        String   @id
-  tourId    String
-  tour      Tours    @relation(fields: [tourId], references: [id])
-  image     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Review {
