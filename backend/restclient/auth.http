@@ -6,3 +6,6 @@ Content-Type: application/json
     "password": "password"
 }
     
+
+## check user admin
+POST http://localhost:3000/auth/admin/0f9942d6-45a5-4d85-8534-68ec561b54da

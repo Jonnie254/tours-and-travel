@@ -1,0 +1,77 @@
+<div class="container">
+    <div *ngIf="createFormSuccess" class="success-message">
+        <i class="pi pi-check"></i>
+        <p>{{ createFormMessage }}</p>
+    </div>
+    <div *ngIf="!createFormSuccess && createFormError" class="error-message-top">
+        <i class="pi pi-times"></i>
+        <p>{{ createFormMessage }}</p>
+    </div>
+    <form class="tour-form" [formGroup]="tourForm" (ngSubmit)="onSubmit()">
+        <h2>Create Tour</h2>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter tour name">
+            <div *ngIf="f['name'].invalid && (f['name'].dirty || f['name'].touched)" class="text-danger">
+                <div *ngIf="f['name']?.errors?.['required']">Name is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" formControlName="description" rows="3"
+                placeholder="Enter tour description"></textarea>
+            <div *ngIf="f['description'].invalid && (f['description'].dirty || f['description'].touched)"
+                class="text-danger">
+                <div *ngIf="f['description']?.errors?.['required']">Description is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" formControlName="price" placeholder="Enter tour price">
+            <div *ngIf="f['price'].invalid && (f['price'].dirty || f['price'].touched)" class="text-danger">
+                <div *ngIf="f['price']?.errors?.['required']">Price is required</div>
+                <div *ngIf="f['price'].errors?.['min']">Price must be greater than or equal to 0</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" formControlName="location"
+                placeholder="Enter tour location">
+            <div *ngIf="f['location'].invalid && (f['location'].dirty || f['location'].touched)" class="text-danger">
+                <div *ngIf="f['location']?.errors?.['required']">Location is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="file" class="form-control" id="images" (change)="getImagesUrl($event)">
+            <div *ngIf="spinnerVisible" class="spinner">
+                <i class="pi pi-spin pi-spinner" style="font-size: 1.2rem; color: blue; margin: 2px;"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="startDateTime">Start Date</label>
+            <input type="date" class="form-control" id="startDateTime" formControlName="startDateTime">
+            <div *ngIf="f['startDateTime'].invalid && (f['startDateTime'].dirty || f['startDateTime'].touched)"
+                class="text-danger">
+                <div *ngIf="f['startDateTime']?.errors?.['required']">Start Date Time is required</div>
+                <div *ngIf="f['startDateTime']?.errors?.['dateInPast']">Start Date Time cannot be in the past</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="endDateTime">End Date</label>
+            <input type="date" class="form-control" id="endDateTime" formControlName="endDateTime">
+            <div *ngIf="f['endDateTime'].invalid && (f['endDateTime'].dirty || f['endDateTime'].touched)"
+                class="text-danger">
+                <div *ngIf="f['endDateTime']?.errors?.['required']">End Date Time is required</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tourType">Tour Type</label>
+            <input type="text" class="form-control" id="tourType" formControlName="tourType"
+                placeholder="Enter tour type">
+            <div *ngIf="f['tourType'].invalid && (f['tourType'].dirty || f['tourType'].touched)" class="text-danger">
+                <div *ngIf="f['tourType']?.errors?.['required']">Tour Type is required</div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Tour</button>
+    </form>
+</div>

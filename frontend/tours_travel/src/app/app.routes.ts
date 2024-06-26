@@ -9,7 +9,9 @@ import { AdminUsersComponent } from './components/admin-users/admin-users.compon
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { CreateTourComponent } from './components/create-tour/create-tour.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-// import { authGuard } from './guards/auth.guard';
+import { ToursComponent } from './components/tours/tours.component';
+import { authGuard } from './guards/auth.guard';
+import { AdminEdiUserComponent } from './components/admin-edi-user/admin-edi-user.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -23,14 +25,27 @@ export const routes: Routes = [
     path: 'userdashboard',
     component: UsersHomedashboardComponent,
     children: [
-      { path: 'home', component: HomeComponent },
+      { path: 'home', component: HomeComponent, canActivate: [authGuard] },
       {
         path: 'bookings',
         component: BookingsComponent,
+        canActivate: [authGuard],
       },
+      {
+        path: 'tours',
+        component: ToursComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'tours/:id',
+        component: ToursComponent,
+        canActivate: [authGuard],
+      },
+
       {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [authGuard],
       },
     ],
   },
@@ -38,19 +53,33 @@ export const routes: Routes = [
     path: 'admindashboard',
     component: AdminDashboardComponent,
     children: [
-      { path: 'home', component: HomeComponent },
+      {
+        path: 'admin-home',
+        component: AdminEdiUserComponent,
+        canActivate: [authGuard],
+      },
       {
         path: 'bookings',
         component: BookingsComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [authGuard],
       },
-      { path: 'users', component: AdminUsersComponent },
-      { path: 'tour', component: CreateTourComponent },
+      {
+        path: 'users',
+        component: AdminUsersComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'create-tour',
+        component: CreateTourComponent,
+        canActivate: [authGuard],
+      },
     ],
   },
-  // { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: NotfoundComponent },
 ];

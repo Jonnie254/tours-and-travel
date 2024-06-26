@@ -62,4 +62,35 @@ export class authService {
       };
     }
   }
+  async isAdmin(user_id: string): Promise<Res> {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: user_id,
+        },
+      });
+      if (user?.role === "admin") {
+        return {
+          success: true,
+          message: "User is an admin",
+          data: null,
+        };
+      } else {
+        return {
+          success: false,
+          message: "User is not an admin",
+          data: null,
+        };
+      }
+    } catch (error) {
+      console.error("Error in isAdmin:", error);
+      return {
+        success: false,
+        message: "User is not an admin",
+        data: null,
+      };
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
 }

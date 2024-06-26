@@ -1,0 +1,23 @@
+###create a new user
+POST http://localhost:3000/tour/create
+Content-Type: application/json
+
+{
+    "name":"City Tour", 
+    "description": "Amazing tour to explore the city",
+    "price": 100,
+    "location": "New York",
+    "tourType": "City Tour",
+    "images": "https://www.google.com",
+    "startDateTime": "2022-01-01T09:00:00",
+    "endDateTime": "2022-01-01T18:00:00"
+}
+
+###get all tours`
+GET http://localhost:3000/tour/get/c3084238-13bd-4b78-b25e-370a053fd209
+
+###delete a tour
+DELETE http://localhost:3000/tour/delete/8050ab1d-5664-4137-b12c-0c9d343054a8
+
+##get all tours
+GET http://localhost:3000/tour/get

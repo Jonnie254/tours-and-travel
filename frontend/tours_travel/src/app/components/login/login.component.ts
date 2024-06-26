@@ -81,7 +81,6 @@ export class LoginComponent {
           if (response.success) {
             this.createAccountSuccess = true;
             this.createAccountMessage = 'Login successful';
-            // this.authService.isLoggedIn = true;
             setTimeout(() => this.clearMessages(), 3000);
             setTimeout(() => {
               if (response.data.role === 'user') {

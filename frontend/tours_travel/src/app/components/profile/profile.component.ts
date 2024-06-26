@@ -18,13 +18,11 @@ export class ProfileComponent {
   constructor(
     private authService: AuthService,
     private userService: UserService
-  ) {}
-
-  ngOnInit(): void {
+  ) {
+    this.user_id = localStorage.getItem('user_id') as string;
     this.loadUserProfile();
     this.user_id = this.authService.getUserID();
   }
-
   updateProfileError: boolean = false;
   updateProfileSuccess: boolean = false;
   updateProfileMessage: string = '';
@@ -35,11 +33,10 @@ export class ProfileComponent {
   };
   loadUserProfile() {
     if (this.user_id) {
-      console.log('user_id:', this.user_id);
-      this.userService.getuserProfile(this.user_id).subscribe(
+      this.userService.getuserProfile().subscribe(
         (response) => {
-          if (response.success && response.data && response.data.user) {
-            const { name, email } = response.data.user;
+          if (response.success && response.data && response.data) {
+            const { name, email } = response.data;
             this.updateProfileObj.name = name;
             this.updateProfileObj.email = email;
           } else {
@@ -51,5 +48,6 @@ export class ProfileComponent {
       );
     }
   }
+
   onProfileUpdate() {}
 }

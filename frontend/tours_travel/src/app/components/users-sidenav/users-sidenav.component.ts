@@ -23,7 +23,6 @@ export class UsersSidenavComponent {
   constructor(private authService: AuthService, private router: Router) {}
   logout() {
     localStorage.clear();
-    this.authService.isLoggedIn = false;
     this.router.navigate(['/login']);
   }
   faHome = faHome;

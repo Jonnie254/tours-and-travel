@@ -10,7 +10,7 @@ export class userService {
     try {
       const user_id = uuidv4();
       const hashedPassword = bcrypt.hashSync(user.password, 10);
-      const response = await prisma.user.create({
+      await prisma.user.create({
         data: {
           id: user_id,
           name: user.name,
@@ -19,21 +19,19 @@ export class userService {
           role: user.role,
         },
       });
-
-      if (response?.id === user_id) {
-        return {
-          success: true,
-          message: "Account created successfully",
-          data: null,
-        };
-      } else {
+      return {
+        success: true,
+        message: "Account created successfully",
+        data: null,
+      };
+    } catch (error: any) {
+      if (error.message.contains("Unique constraint failed")) {
         return {
           success: false,
-          message: "Account creation failed",
+          message: "Email or phone in use",
           data: null,
         };
       }
-    } catch (error) {
       return {
         success: false,
         message: "Account creation failed: ",
@@ -47,6 +45,9 @@ export class userService {
     return new Promise(async (resolve, reject) => {
       try {
         const users = await prisma.user.findMany({
+          where: {
+            role: "user",
+          },
           select: {
             id: true,
             name: true,

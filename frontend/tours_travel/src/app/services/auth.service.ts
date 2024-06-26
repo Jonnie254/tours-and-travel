@@ -12,8 +12,6 @@ export class AuthService {
   private user_id: string = '';
 
   constructor(private http: HttpClient) {}
-  isLoggedIn = false;
-
   login(email: string, password: string): Observable<any> {
     return this.http
       .post<any>(`${this.baseUrl}/login`, { email, password })

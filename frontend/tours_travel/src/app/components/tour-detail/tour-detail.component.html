@@ -1,0 +1,14 @@
+<div class="tour-detail">
+    <div class="tour-image">
+        <img [src]="tour?.images" alt="Tour Image">
+    </div>
+    <div class="tour-info">
+        <h2>{{ tour?.name }}</h2>
+        <p><strong>Description:</strong> {{ tour?.description }}</p>
+        <p><strong>Price:</strong> ${{ tour?.price }}</p>
+        <p><strong>Location:</strong> {{ tour?.location }}</p>
+        <p><strong>Tour Type:</strong> {{ tour?.tourType }}</p>
+        <p><strong>Start Date:</strong> {{ tour?.startDateTime | date:'shortdate' }}</p>
+        <p><strong>End Date:</strong> {{ tour?.endDateTime | date:'shortdate' }}</p>
+    </div>
+</div>

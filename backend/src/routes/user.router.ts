@@ -6,12 +6,13 @@ import {
   updateUser,
   userProfile,
 } from "../controller/user.controller";
+import { verifyAdmin, verifyToken } from "../middleware/token.validation";
 
 let userRouter = Router();
 userRouter.post("/create", createUser);
-userRouter.get("/profile/:user_id", userProfile);
-userRouter.put("/update/:user_id", updateUser);
-userRouter.get("/all", allUsers);
-userRouter.delete("/delete/:user_id", deleteUser);
+userRouter.get("/profile", verifyToken, userProfile);
+userRouter.put("/update/:user_id", verifyToken, updateUser);
+userRouter.get("/all", verifyToken, verifyAdmin, allUsers);
+userRouter.delete("/delete/:user_id", verifyToken, verifyAdmin, deleteUser);
 
 export default userRouter;

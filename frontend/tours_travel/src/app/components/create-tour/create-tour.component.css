@@ -1,0 +1,71 @@
+.tour-form {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.tour-form h2 {
+  text-align: center;
+}
+
+.tour-form .form-group {
+  margin-bottom: 15px;
+}
+
+.tour-form label {
+  font-size: 0.875rem;
+}
+
+.tour-form input[type="text"],
+.tour-form input[type="number"],
+.tour-form input[type="date"],
+.tour-form textarea {
+  padding: 8px;
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 100%;
+}
+.tour-form input:focus,
+.tour-form textarea:focus {
+  outline: none;
+  border: 1px solid #007bff;
+}
+.tour-form button {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  place-content: center;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.error-message,
+.text-danger {
+  color: red;
+  text-align: center;
+}
+.error-message-top {
+  color: red;
+  text-align: center;
+  top: 10%;
+  background-color: #c9d6ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+.success-message {
+  color: green;
+  text-align: center;
+  width: 300px;
+  background-color: #c9d6ff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}

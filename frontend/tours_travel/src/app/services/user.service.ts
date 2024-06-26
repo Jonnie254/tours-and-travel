@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { User } from '../interface/userlogins';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  token: string = localStorage.getItem('token') || '';
+  headers: HttpHeaders = new HttpHeaders({
+    Authorization: this.token,
+    'Content-Type': 'application/json',
+  });
   constructor(private http: HttpClient) {}
   createUser(signUpObj: User): Observable<any> {
     return this.http.post<{
@@ -15,10 +20,10 @@ export class UserService {
       data: null;
     }>('http://localhost:3000/user/create', signUpObj);
   }
-  getuserProfile(user_id: string): Observable<any> {
+  getuserProfile(): Observable<any> {
     return this.http.get<{
       user: { id: string; name: string; email: string };
-    }>(`http://localhost:3000/user/profile/${user_id}`);
+    }>(`http://localhost:3000/user/profile/`, { headers: this.headers });
   }
   getAllUsers(): Observable<User[]> {
     return this.http

@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import { UserLogin } from "../interfaces/auth";
 import { authService } from "../services/authorization.service";
-
+const auth = new authService();
 export const LoginUser = async (req: Request, res: Response) => {
   try {
-    const auth = new authService();
     const login: UserLogin = req.body;
 
     console.log("Login request received:", login.email);
@@ -31,5 +30,17 @@ export const LoginUser = async (req: Request, res: Response) => {
       message: "Internal server error",
       data: null,
     });
+  }
+};
+
+export const isAdmin = async (req: Request, res: Response) => {
+  try {
+    let { user_id } = req.params;
+    let response = await auth.isAdmin(user_id);
+    if (response.success) {
+      res.status(200).json(response);
+    }
+  } catch (error) {
+    res.status(400).json({ error });
   }
 };
